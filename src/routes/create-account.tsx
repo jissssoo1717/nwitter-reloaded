@@ -52,7 +52,12 @@ export default function CreateAccount() {
       await updateProfile(credentials.user, { displayName: name });
 
       // redirect to the homepage
-      navigate("/");
+      if (auth.currentUser) {
+        console.log("log in");
+      } else {
+        console.log("Not log in XXXXX");
+      }
+      navigate("/login");
     } catch (e) {
       // set error
       if (e instanceof FirebaseError) {

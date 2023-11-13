@@ -11,6 +11,7 @@ import LoadingScreen from "./components/loading-screen";
 import { auth } from "./firebase";
 import { styled } from "styled-components";
 import ProtectedRoute from "./components/protected-route";
+import PasswordReset from "./routes/password-reset";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: "/create-account",
     element: <CreateAccount />,
+  },
+  {
+    path: "/password-reset",
+    element: <PasswordReset />,
   },
 ]);
 

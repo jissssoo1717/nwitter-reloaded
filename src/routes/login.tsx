@@ -13,7 +13,7 @@ import {
 } from "../components/auth-components";
 import GithubButton from "../components/github-btn";
 
-export default function CreateAccount() {
+export default function Login() {
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -70,6 +70,10 @@ export default function CreateAccount() {
         <Input type="submit" value={isLoading ? "Loading..." : "Log in"} />
       </Form>
       {error !== "" ? <Error>{error}</Error> : null}
+
+      <Switcher>
+        Forgot password? <Link to="/password-reset">Click here&rarr;</Link>
+      </Switcher>
       <Switcher>
         Don't have an account?{" "}
         <Link to="/create-account">Create One &rarr;</Link>
