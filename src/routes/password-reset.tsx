@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { auth } from "../firebase";
 import { FirebaseError } from "firebase/app";
-import { Error } from "../components/auth-components";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -19,7 +18,7 @@ const Title = styled.h1`
   font-size: 45px;
   color: black;
 `;
-const Form = styled.span`
+const Form = styled.form`
   margin-top: 50px;
   height: 22%;
   padding: 10px;
@@ -54,9 +53,15 @@ const Input = styled.input`
     }
   }
 `;
+const Error = styled.span`
+  font-weight: 600;
+  color: tomato;
+  margin-top: 10px;
+`;
 
 export default function PasswordReset() {
   const navigate = useNavigate();
+  const [isLoading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,15 +75,21 @@ export default function PasswordReset() {
   };
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isLoading || email === "") return;
     try {
+      setLoading(true);
       await sendPasswordResetEmail(auth, email).then(() => {
-        console.log("Password Reset Email sent");
+        alert(
+          "Password Reset Email was sent.\nCheck your email and click the link for changing the password."
+        );
         navigate("/login");
       });
     } catch (e) {
       if (e instanceof FirebaseError) {
         setError(e.message);
       }
+    } finally {
+      setLoading(false);
     }
   };
   return (
