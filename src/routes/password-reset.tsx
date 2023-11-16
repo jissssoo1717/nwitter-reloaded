@@ -35,7 +35,6 @@ const Input = styled.input`
   width: 100%;
   border-radius: 700px;
   border: 1px solid black;
-  gap: 10px;
   &[type="submit"] {
     display: flex;
     justify-content: center;
