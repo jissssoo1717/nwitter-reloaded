@@ -2,7 +2,12 @@ import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import styled from "styled-components";
 import { auth, db, storage } from "../firebase";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  getDownloadURL,
+  getMetadata,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
 
 const Form = styled.form`
   display: flex;
@@ -68,6 +73,10 @@ export default function PostTweetForm() {
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (files && files.length === 1) {
+      if (files[0].size > 1000000) {
+        confirm("Photo can be up to 1MB");
+        return;
+      }
       setFile(files[0]);
     }
   };
