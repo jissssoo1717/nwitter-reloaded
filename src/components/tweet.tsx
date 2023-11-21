@@ -3,7 +3,6 @@ import { ITweet } from "./timeline";
 import { auth, db, storage } from "../firebase";
 import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
-import EditTweet from "./edit-tweet-form";
 import { useState } from "react";
 
 const Wrapper = styled.div`
@@ -46,7 +45,6 @@ const EditButton = styled(Button)`
 
 export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
   const user = auth.currentUser;
-  const [edit, setEdit] = useState(false);
   const onDelete = async () => {
     const ok = confirm("Are you sure you want to delete this tweet?");
     if (!ok || user?.uid !== userId) return;

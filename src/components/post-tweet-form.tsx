@@ -2,12 +2,7 @@ import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import styled from "styled-components";
 import { auth, db, storage } from "../firebase";
-import {
-  getDownloadURL,
-  getMetadata,
-  ref,
-  uploadBytes,
-} from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const Form = styled.form`
   display: flex;
