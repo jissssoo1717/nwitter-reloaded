@@ -17,9 +17,14 @@ const Wrapper = styled.div`
   flex-direction: column;
   padding: 20px 30px 0px 0px;
 `;
-const Form = styled.form``;
+const Form = styled.form`
+  width: 100%;
+`;
 const TextArea = styled.textarea`
   width: 100%;
+  font-size: 14px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 `;
 const Input = styled.input``;
 
