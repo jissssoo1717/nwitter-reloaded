@@ -1,9 +1,13 @@
+import { doc, updateDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { db } from "../firebase";
 
 type Props = {
   tweet: string;
   photo?: string;
+  id: string;
+  setEdit: (edit: boolean) => void;
 };
 
 const Wrapper = styled.div`
@@ -17,38 +21,33 @@ const Form = styled.form``;
 const TextArea = styled.textarea`
   width: 100%;
 `;
+const Input = styled.input``;
 
-const Button = styled.button`
-  background-color: tomato;
-  color: white;
-  font-weight: 600;
-  border: 0;
-  font-size: 12px;
-  padding: 5px 10px;
-  text-transform: uppercase;
-  border-radius: 5px;
-  margin-top: 50px;
-  cursor: pointer;
-`;
-
-export default function EditTweet({ tweet, photo }: Props) {
+export default function EditTweet({ tweet, photo, id, setEdit }: Props) {
+  const [isLoading, setLoading] = useState(false);
   const [editTweet, setEditTweet] = useState(tweet);
   const onEditTweet = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEditTweet(e.target.value);
   };
 
-  const onSubmitTweet = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitTweet = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (editTweet === "" || editTweet.length > 140) return;
     try {
-      // update doc
+      setLoading(true);
+      await updateDoc(doc(db, "tweets", id), {
+        tweet: editTweet,
+      });
+      setEdit(false);
     } catch (e) {
-      // error
+      console.log(e);
+    } finally {
+      setLoading(false);
     }
   };
   return (
     <Wrapper>
-      <Form>
+      <Form onSubmit={onSubmitTweet}>
         <TextArea
           required
           rows={5}
@@ -56,6 +55,7 @@ export default function EditTweet({ tweet, photo }: Props) {
           onChange={onEditTweet}
           value={editTweet}
         />
+        <Input type="submit" value={isLoading ? "Posting..." : "Edit Tweet"} />
       </Form>
     </Wrapper>
   );

@@ -66,7 +66,6 @@ export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
     if (user?.uid !== userId) return;
     try {
       setEdit((prev) => !prev);
-      // await updateDoc(doc(db, "tweets", id), { tweet: "Test Fixing" });
     } catch (e) {
       console.log(e);
     }
@@ -77,7 +76,7 @@ export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
         <Username>{username}</Username>
 
         {isEdit ? (
-          <EditTweet tweet={tweet} photo={photo} />
+          <EditTweet tweet={tweet} photo={photo} id={id} setEdit={setEdit} />
         ) : (
           <Payload>{tweet}</Payload>
         )}
