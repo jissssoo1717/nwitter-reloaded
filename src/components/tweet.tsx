@@ -3,6 +3,7 @@ import { ITweet } from "./timeline";
 import { auth, db, storage } from "../firebase";
 import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
+import EditTweet from "./edit-tweet-form";
 import { useState } from "react";
 
 const Wrapper = styled.div`
@@ -45,6 +46,7 @@ const EditButton = styled(Button)`
 
 export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
   const user = auth.currentUser;
+  const [isEdit, setEdit] = useState(false);
   const onDelete = async () => {
     const ok = confirm("Are you sure you want to delete this tweet?");
     if (!ok || user?.uid !== userId) return;
@@ -63,7 +65,7 @@ export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
   const onEdit = async () => {
     if (user?.uid !== userId) return;
     try {
-      // await updateDoc(doc(db, "tweets", id), { tweet: "Test Fixing" });
+      setEdit((prev) => !prev);
     } catch (e) {
       console.log(e);
     }
@@ -72,12 +74,17 @@ export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
     <Wrapper>
       <Column>
         <Username>{username}</Username>
-        <Payload>{tweet}</Payload>
+
+        {isEdit ? (
+          <EditTweet tweet={tweet} photo={photo} id={id} setEdit={setEdit} />
+        ) : (
+          <Payload>{tweet}</Payload>
+        )}
         {user?.uid === userId ? (
           <DeleteButton onClick={onDelete}>Delete</DeleteButton>
         ) : null}
         {user?.uid === userId ? (
-          <EditButton onClick={onEdit}>Edit</EditButton>
+          <EditButton onClick={onEdit}>{isEdit ? "Cancel" : "Edit"}</EditButton>
         ) : null}
       </Column>
       <Column>{photo ? <Photo src={photo} /> : null}</Column>
