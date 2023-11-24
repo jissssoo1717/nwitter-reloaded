@@ -3,8 +3,8 @@ import { ITweet } from "./timeline";
 import { auth, db, storage } from "../firebase";
 import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
-import { useState } from "react";
 import EditTweet from "./edit-tweet-form";
+import { useState } from "react";
 
 const Wrapper = styled.div`
   display: grid;
